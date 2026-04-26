@@ -1,34 +1,31 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage 
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="EduApp.Views.CadastroPage">
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EduApp.Views.CadastroPage"
+             BackgroundColor="{StaticResource Background}">
 
-    <VerticalStackLayout>
-        
-        <!-- Título -->
-        <Label Text="Login"
-               FontSize="24"
-               HorizontalOptions="Center" />
+	<VerticalStackLayout Padding="30" Spacing="15" VerticalOptions="Center">
 
-        <!-- Campo Email -->
-        <Entry Placeholder="Email" />
+		<Label Text="Bem Vindo!" FontSize="28" FontAttributes="Bold" TextColor="#101213" />
+		<Label Text="Crie sua conta" TextColor="#57636C" Margin="0,0,0,10" />
 
-        <!-- Senha -->
-        <Entry Placeholder="Senha"
-               IsPassword="True" />
+		<Border>
+			<Entry x:Name="EmailEntry" Placeholder="E-mail" Keyboard="Email" />
+		</Border>
 
-        <!-- Botão -->
-        <Button Text="Entrar" />
+		<Border>
+			<Entry x:Name="SenhaEntry" Placeholder="Senha" IsPassword="True" />
+		</Border>
 
-        <!-- Link -->
-        <Label Text="Criar conta"
-               TextColor="Blue"
-               HorizontalOptions="Center" />
+		<Border>
+			<Entry x:Name="ConfirmarSenhaEntry" Placeholder="Confirmar Senha" IsPassword="True" />
+		</Border>
 
+		<Button Text="Criar Conta" Clicked="OnFinalizarCadastro" />
 
-    </VerticalStackLayout>
+		<Button Text="Já tem conta? Login"
+			BackgroundColor="Transparent"
+			TextColor="#4B39EF"
+			Clicked="OnIrParaLogin" />	
 
-
-
+	</VerticalStackLayout>
 </ContentPage>

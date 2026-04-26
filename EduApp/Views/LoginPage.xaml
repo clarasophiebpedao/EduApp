@@ -1,13 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage 
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="EduApp.Views.LoginPage">
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EduApp.Views.LoginPage"
+             BackgroundColor="{StaticResource Background}">
 
-    <VerticalStackLayout>
+	<VerticalStackLayout Padding="30" Spacing="15" VerticalOptions="Center">
 
+		<Label Text="Bem Vindo Novamente!" FontSize="28" FontAttributes="Bold" TextColor="#101213" />
+		<Label Text="Acesse sua conta abaixo" TextColor="#57636C" Margin="0,0,0,10" />
 
-        
-    </VerticalStackLayout>
+		<Entry Placeholder="E-mail" Keyboard="Email" />
+		<Border>
+			<Entry Placeholder="Sua senha" IsPassword="True" VerticalOptions="Center" />
+		</Border>
 
+		<Button Text="Entrar" Margin="0,10,0,0" />
+
+		<Button Text="Não tem conta? Registre-se"
+        BackgroundColor="Transparent"
+        TextColor="#4B39EF"
+        Clicked="OnIrParaCadastro" /> 
+
+	</VerticalStackLayout>
 </ContentPage>
