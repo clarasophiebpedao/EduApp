@@ -1,4 +1,6 @@
-﻿namespace EduApp.Views;
+﻿using EduApp.Services;
+
+namespace EduApp.Views;
 
 public partial class CadastroPage : ContentPage
 {
@@ -36,6 +38,11 @@ public partial class CadastroPage : ContentPage
 
         // Simulando o sucesso para o usuário
         await DisplayAlert("Sucesso!", $"Conta criada para: {email}", "OK");
+
+        // Teste de conexao com o aiven
+        var aivenService = new AivenDatabaseService();
+        string resultadoBanco = await aivenService.TestarConexaoAsync();
+        await DisplayAlert("Teste de Banco", resultadoBanco, "OK");
 
         // Opcional: Voltar para o login automaticamente após o sucesso
         await Navigation.PopAsync();
