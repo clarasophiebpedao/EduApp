@@ -3,29 +3,37 @@
              x:Class="EduApp.Views.CadastroPage"
              BackgroundColor="{StaticResource Background}">
 
-	<VerticalStackLayout Padding="30" Spacing="15" VerticalOptions="Center">
+    <VerticalStackLayout Padding="30" Spacing="15" VerticalOptions="Center">
 
-		<Label Text="Bem Vindo!" FontSize="28" FontAttributes="Bold" TextColor="#101213" />
-		<Label Text="Crie sua conta" TextColor="#57636C" Margin="0,0,0,10" />
+        <Label Text="Bem Vindo!" FontSize="28" FontAttributes="Bold" TextColor="#101213" />
+        <Label Text="Crie sua conta" TextColor="#57636C" Margin="0,0,0,10" />
 
-		<Border>
-			<Entry x:Name="EmailEntry" Placeholder="E-mail" Keyboard="Email" />
-		</Border>
+        <!-- NOVO: Campo de Nome adicionado para o banco de dados -->
+        <Border>
+            <Entry Placeholder="Nome Completo" Text="{Binding Nome}" />
+        </Border>
 
-		<Border>
-			<Entry x:Name="SenhaEntry" Placeholder="Senha" IsPassword="True" />
-		</Border>
+        <!-- Note o Text="{Binding Email}" -->
+        <Border>
+            <Entry Placeholder="E-mail" Keyboard="Email" Text="{Binding Email}" />
+        </Border>
 
-		<Border>
-			<Entry x:Name="ConfirmarSenhaEntry" Placeholder="Confirmar Senha" IsPassword="True" />
-		</Border>
+        <Border>
+            <Entry Placeholder="Senha" IsPassword="True" Text="{Binding Senha}" />
+        </Border>
 
-		<Button Text="Criar Conta" Clicked="OnFinalizarCadastro" />
+        <Border>
+            <Entry Placeholder="Confirmar Senha" IsPassword="True" Text="{Binding ConfirmaSenha}" />
+        </Border>
 
-		<Button Text="Já tem conta? Login"
-			BackgroundColor="Transparent"
-			TextColor="#4B39EF"
-			Clicked="OnIrParaLogin" />	
+        <!-- O Clicked saiu, entrou o Command -->
+        <Button Text="Criar Conta" Command="{Binding CadastrarCommand}" />
 
-	</VerticalStackLayout>
+        <!-- A navegação simples de voltar pode continuar no Clicked sem problemas -->
+        <Button Text="Já tem conta? Login"
+                BackgroundColor="Transparent"
+                TextColor="#4B39EF"
+                Clicked="OnIrParaLogin" />
+
+    </VerticalStackLayout>
 </ContentPage>
