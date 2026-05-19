@@ -7,16 +7,13 @@ public partial class CadastroPage : ContentPage
     public CadastroPage()
     {
         InitializeComponent();
+
+        // Isso conecta a sua View ao seu ViewModel
+        BindingContext = new Cadastro();
     }
 
-    // 1. Método para o botão "Já tem conta? Login"
+    // Método para o botão "Já tem conta? Login"
     private async void OnIrParaLogin(object sender, EventArgs e)
-    {
-        await Navigation.PopAsync();
-    }
-
-    // 2. Método para o botão principal "Criar Conta"
-    private async void OnFinalizarCadastro(object sender, EventArgs e)
     {
         // Capturando o que foi digitado
         string email = EmailEntry.Text;
