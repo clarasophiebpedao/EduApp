@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace EduApp.Services
 {
-    // CÓDIGO DA VITÓRIA: Criamos uma classe concreta temporária que herda de Usuario
-    // para podermos listar as pessoas que ainda não têm perfil definido.
+    // Classe concreta temporária que herda de Usuario para listar os pendentes
     public class UsuarioPendente : Usuario { }
 
     public class UsuarioService : BaseDatabaseService
@@ -79,7 +78,7 @@ namespace EduApp.Services
         }
 
         // ==========================================
-        // MÉTODOS DO ADMINISTRADOR
+        // MÉTODOS DO ADMINISTRADOR (CORRIGIDOS)
         // ==========================================
 
         public async Task<List<Usuario>> BuscarUsuariosPendentesAsync()
@@ -91,23 +90,24 @@ namespace EduApp.Services
                 using var connection = GetConnection();
                 await connection.OpenAsync();
 
-                string query = "SELECT idUsuario, usuNome, usuEmail FROM Usuario WHERE usuPermissao = 'Pendente'";
+                // CORREÇÃO: Mudado de 'idUsuario' para 'usuID' para bater com o seu banco
+                string query = "SELECT usuID, usuNome, usuEmail FROM Usuario WHERE usuPermissao = 'Pendente'";
 
                 using var command = new MySqlCommand(query, connection);
                 using var reader = await command.ExecuteReaderAsync();
 
                 while (await reader.ReadAsync())
                 {
-
                     lista.Add(new UsuarioPendente
                     {
-                        Id = Convert.ToInt32(reader["idUsuario"]),
+                        // CORREÇÃO: Puxando o valor correto da coluna 'usuID'
+                        Id = Convert.ToInt32(reader["usuID"]),
                         Nome = reader["usuNome"].ToString(),
                         Email = reader["usuEmail"].ToString(),
                         Senha = string.Empty,
                         DataNascimento = DateOnly.MinValue,
                         Escola = string.Empty,
-                        Permissao = default // O 'default' resolve o preenchimento automático de Enums
+                        Permissao = default
                     });
                 }
             }
@@ -118,6 +118,7 @@ namespace EduApp.Services
 
             return lista;
         }
+
         public async Task<bool> AtualizarPerfilUsuarioAsync(int id, string novoPerfil)
         {
             try
@@ -125,7 +126,8 @@ namespace EduApp.Services
                 using var connection = GetConnection();
                 await connection.OpenAsync();
 
-                string query = "UPDATE Usuario SET usuPermissao = @permissao WHERE idUsuario = @id";
+                // Query usando a coluna certa (usuID) que você me passou
+                string query = "UPDATE Usuario SET usuPermissao = @permissao WHERE usuID = @id";
 
                 using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@permissao", novoPerfil);
@@ -136,7 +138,7 @@ namespace EduApp.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao atribuir perfil: {ex.Message}");
+                Console.WriteLine($"Erro ao atualizar perfil: {ex.Message}");
                 return false;
             }
         }
