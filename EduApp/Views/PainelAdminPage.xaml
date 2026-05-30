@@ -1,0 +1,47 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EduApp.Views.PainelAdminPage"
+             Title="Painel do Administrador">
+
+    <Grid Padding="20" RowDefinitions="Auto, *">
+
+        <Label Text="Usuários Aguardando Aprovação" 
+               FontSize="22" 
+               FontAttributes="Bold" 
+               TextColor="White"
+               Margin="0,0,0,15" 
+               Grid.Row="0"/>
+
+        <CollectionView ItemsSource="{Binding UsuariosPendentes}" Grid.Row="1">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="LightGray" CornerRadius="8" Padding="15" HasShadow="True" BackgroundColor="#F1F4F8">
+                        <Grid ColumnDefinitions="*, Auto, Auto" RowDefinitions="Auto, Auto" ColumnSpacing="10">
+
+                            <Label Text="{Binding Nome}" FontSize="16" FontAttributes="Bold" TextColor="#101213" Grid.Row="0" Grid.Column="0"/>
+                            <Label Text="{Binding Email}" TextColor="#57636C" FontSize="14" Grid.Row="1" Grid.Column="0"/>
+
+                            <Button Text="Aluno"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.TornarAlunoCommand}"
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="Purple" TextColor="White" 
+                                    HeightRequest="40" WidthRequest="90" FontAttributes="Bold"
+                                    Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" VerticalOptions="Center"/>
+
+                            <Button Text="Professor"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.TornarProfessorCommand}"
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="#4B39EF" TextColor="White" 
+                                    HeightRequest="40" WidthRequest="100" FontAttributes="Bold"
+                                    Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

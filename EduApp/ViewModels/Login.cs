@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Microsoft.Maui.Controls; // Necessário para exibir alertas e navegar
+using Microsoft.Maui.Controls;
 using EduApp.Services;
+using EduApp.Views;
 
 namespace EduApp.ViewModels
 {
@@ -21,7 +22,7 @@ namespace EduApp.ViewModels
             LoginCommand = new Command(async () => await RealizarLoginAsync());
         }
 
-        // 3. A Lógica de Validação
+        // 3. Lógica de Validação e Redirecionamento Blindada por Perfil
         private async Task RealizarLoginAsync()
         {
             // Valida se o usuário deixou algum campo em branco
@@ -31,23 +32,42 @@ namespace EduApp.ViewModels
                 return;
             }
 
-            // Instancia o serviço de conexão com o banco
             var usuarioService = new UsuarioService();
 
-            // Pede para o serviço validar as credenciais (que vai rodar o SELECT COUNT no banco)
-            bool loginValido = await usuarioService.ValidarLoginAsync(Email, Senha);
+            // Puxa a string direta da coluna usuPermissao do MySQL
+            string permissao = await usuarioService.ValidarLoginAsync(Email, Senha);
 
-            // Dá o feedback para o usuário
-            if (loginValido)
+            // Se o banco retornar algo (não nulo e não vazio), o login está correto
+            if (!string.IsNullOrEmpty(permissao))
             {
                 await App.Current.MainPage.DisplayAlert("Bem-vindo!", "Login realizado com sucesso.", "Continuar");
 
-                // NOTA PARA O TCC: Quando vocês criarem a tela principal do app (Home),
-                // é aqui que vocês vão colocar o código para redirecionar o aluno.
-                // Exemplo: await App.Current.MainPage.Navigation.PushAsync(new HomeAppPage());
+                // Remove espaços em branco acidentais que possam vir do banco de dados (ex: "Admin ")
+                string permissaoLimpa = permissao.Trim();
+
+                // Compara os perfis ignorando maiúsculas/minúsculas (StringComparison.OrdinalIgnoreCase)
+                if (permissaoLimpa.Equals("Admin", StringComparison.OrdinalIgnoreCase) ||
+                    permissaoLimpa.Equals("Administrador", StringComparison.OrdinalIgnoreCase))
+                {
+                    Application.Current.MainPage = new NavigationPage(new PainelAdminPage());
+                }
+                else if (permissaoLimpa.Equals("Aluno", StringComparison.OrdinalIgnoreCase))
+                {
+                    Application.Current.MainPage = new NavigationPage(new ListaAtividadesPage());
+                }
+                else if (permissaoLimpa.Equals("Professor", StringComparison.OrdinalIgnoreCase))
+                {
+                    Application.Current.MainPage = new NavigationPage(new CriarAtividadePage());
+                }
+                else
+                {
+                    // Caso o texto seja 'Pendente' ou qualquer outra coisa que não seja os perfis acima
+                    await App.Current.MainPage.DisplayAlert("Aviso", "Sua conta está aguardando a aprovação do administrador.", "OK");
+                }
             }
             else
             {
+                // Se a resposta do banco for nula, o e-mail ou a senha estão incorretos
                 await App.Current.MainPage.DisplayAlert("Acesso Negado", "E-mail ou senha incorretos. Tente novamente.", "OK");
             }
         }
