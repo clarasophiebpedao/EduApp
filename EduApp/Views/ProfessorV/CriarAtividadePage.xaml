@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EduApp.Views.CriarAtividadePage"
+             BackgroundColor="#F4FAFF"
+             Title="Forja de Desafios">
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="20">
+
+            <Image Source="mascote_feliz.png" 
+                   HeightRequest="120" 
+                   HorizontalOptions="Center" 
+                   Margin="0,0,0,10" />
+
+            <Label Text="Nova Missão, Mestre! 🔨" 
+                   FontSize="28" 
+                   FontAttributes="Bold" 
+                   TextColor="#FF8C00" 
+                   HorizontalOptions="Center" />
+
+            <Label Text="Prepare um novo desafio para nossos heróis." 
+                   FontSize="16" 
+                   TextColor="#4A4A4A" 
+                   HorizontalOptions="Center" 
+                   Margin="0,0,0,10" />
+
+            <Label Text="Nome da Missão:" 
+                   FontSize="16" 
+                   FontAttributes="Bold" 
+                   TextColor="#1E90FF" 
+                   Margin="5,0"/>
+            <Border StrokeShape="RoundRectangle 20" StrokeThickness="0" BackgroundColor="White" Padding="15,2" HeightRequest="60">
+                <Border.Shadow>
+                    <Shadow Brush="Gray" Offset="0,4" Radius="5" Opacity="0.15"/>
+                </Border.Shadow>
+                <Entry Text="{Binding TituloDigitado}" 
+                       Placeholder="Ex: A Caça aos Números Perdidos" 
+                       FontSize="16"
+                       TextColor="#333333" 
+                       VerticalOptions="Center"/>
+            </Border>
+
+            <Label Text="Objetivo da Missão (O que fazer?):" 
+                   FontSize="16" 
+                   FontAttributes="Bold" 
+                   TextColor="#1E90FF" 
+                   Margin="5,0"/>
+            <Border StrokeShape="RoundRectangle 20" StrokeThickness="2" Stroke="#E0E0E0" BackgroundColor="White" HeightRequest="150">
+                <Editor Text="{Binding DescricaoDigitada}" 
+                        Placeholder="Conte a história ou os passos do desafio..."
+                        FontSize="16"
+                        Margin="10"
+                        TextColor="#333333"/>
+            </Border>
+
+            <Label Text="Recompensa da Missão:" 
+                   FontSize="16" 
+                   FontAttributes="Bold" 
+                   TextColor="#1E90FF" 
+                   Margin="5,0"/>
+            <Border StrokeShape="RoundRectangle 20" StrokeThickness="0" BackgroundColor="White" Padding="15,2" HeightRequest="60" WidthRequest="200" HorizontalOptions="Start">
+                <Border.Shadow>
+                    <Shadow Brush="Gray" Offset="0,4" Radius="5" Opacity="0.15"/>
+                </Border.Shadow>
+                <Grid ColumnDefinitions="Auto, *">
+                    <Label Text="⭐" FontSize="20" Grid.Column="0" VerticalOptions="Center" Margin="0,0,10,0"/>
+                    <Entry Text="{Binding PontosDigitados}" 
+                           Keyboard="Numeric" 
+                           Placeholder="Ex: 50" 
+                           FontSize="16"
+                           TextColor="#FF8C00" 
+                           FontAttributes="Bold"
+                           Grid.Column="1"
+                           VerticalOptions="Center"/>
+                </Grid>
+            </Border>
+
+            <Button Text="LANÇAR MISSÃO! 🚀" 
+                    Command="{Binding SalvarAtividadeCommand}" 
+                    FontSize="20" 
+                    FontAttributes="Bold" 
+                    HeightRequest="65" 
+                    CornerRadius="33"
+                    BackgroundColor="#32CD32" 
+                    TextColor="White" 
+                    Margin="0,30,0,0">
+                <Button.Shadow>
+                    <Shadow Brush="#228B22" Offset="0,6" Radius="0" Opacity="1"/>
+                </Button.Shadow>
+            </Button>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

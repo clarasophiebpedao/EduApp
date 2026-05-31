@@ -4,8 +4,9 @@ using System.Windows.Input;
 using Microsoft.Maui.Controls;
 using EduApp.Services;
 using EduApp.Views;
+using EduApp.Views.Aluno;
 
-namespace EduApp.ViewModels
+namespace EduApp.ViewModels.Geral
 {
     public class Login
     {
@@ -28,7 +29,7 @@ namespace EduApp.ViewModels
             // Valida se o usuário deixou algum campo em branco
             if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Senha))
             {
-                await App.Current.MainPage.DisplayAlert("Atenção", "Por favor, preencha o e-mail e a senha.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Atenção", "Por favor, preencha o e-mail e a senha.", "OK");
                 return;
             }
 
@@ -40,7 +41,7 @@ namespace EduApp.ViewModels
             // Se o banco retornar algo (não nulo e não vazio), o login está correto
             if (!string.IsNullOrEmpty(permissao))
             {
-                await App.Current.MainPage.DisplayAlert("Bem-vindo!", "Login realizado com sucesso.", "Continuar");
+                await Application.Current.MainPage.DisplayAlert("Bem-vindo!", "Login realizado com sucesso.", "Continuar");
 
                 // Remove espaços em branco acidentais que possam vir do banco de dados (ex: "Admin ")
                 string permissaoLimpa = permissao.Trim();
@@ -53,22 +54,22 @@ namespace EduApp.ViewModels
                 }
                 else if (permissaoLimpa.Equals("Aluno", StringComparison.OrdinalIgnoreCase))
                 {
-                    Application.Current.MainPage = new NavigationPage(new ListaAtividadesPage());
+                    Application.Current.MainPage = new NavigationPage(new AlunoView());
                 }
                 else if (permissaoLimpa.Equals("Professor", StringComparison.OrdinalIgnoreCase))
                 {
-                    Application.Current.MainPage = new NavigationPage(new CriarAtividadePage());
+                    Application.Current.MainPage = new NavigationPage(new ProfessorView());
                 }
                 else
                 {
                     // Caso o texto seja 'Pendente' ou qualquer outra coisa que não seja os perfis acima
-                    await App.Current.MainPage.DisplayAlert("Aviso", "Sua conta está aguardando a aprovação do administrador.", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Aviso", "Sua conta está aguardando a aprovação do administrador.", "OK");
                 }
             }
             else
             {
                 // Se a resposta do banco for nula, o e-mail ou a senha estão incorretos
-                await App.Current.MainPage.DisplayAlert("Acesso Negado", "E-mail ou senha incorretos. Tente novamente.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Acesso Negado", "E-mail ou senha incorretos. Tente novamente.", "OK");
             }
         }
     }

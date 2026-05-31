@@ -1,0 +1,79 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EduApp.Views.ListaAtividadesPage"
+             BackgroundColor="#F4FAFF"
+             Title="Mapa de Missões">
+
+    <Grid Padding="15" RowDefinitions="Auto, *">
+
+        <Label Text="Missões Disponíveis 📜"
+               FontSize="24"
+               FontAttributes="Bold"
+               TextColor="#9370DB"
+               HorizontalOptions="Center"
+               Margin="0,0,0,15"
+               Grid.Row="0"/>
+
+        <CollectionView ItemsSource="{Binding Atividades}" Grid.Row="1">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="15" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border StrokeShape="RoundRectangle 20" 
+                    StrokeThickness="0" 
+                    BackgroundColor="White" 
+                    Padding="15" 
+                    Margin="5,0"
+                    MinimumHeightRequest="200">
+                        <Border.Shadow>
+                            <Shadow Brush="Gray" Offset="0,5" Radius="8" Opacity="0.15"/>
+                        </Border.Shadow>
+
+                        <VerticalStackLayout Spacing="10" MinimumHeightRequest="180">
+
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Label Text="{Binding Titulo}" 
+                           FontSize="18" 
+                           FontAttributes="Bold" 
+                           TextColor="#1E90FF" 
+                           Grid.Column="0"
+                           VerticalOptions="Center"
+                           LineBreakMode="TailTruncation" />
+                                <Border StrokeShape="RoundRectangle 15" StrokeThickness="0" BackgroundColor="#FFFACD" Padding="5,5" Grid.Column="1" VerticalOptions="Center">
+                                    <Label Text="{Binding Pontos, StringFormat='⭐ {0} XP'}" 
+                               TextColor="#FF8C00" 
+                               FontAttributes="Bold" 
+                               FontSize="13"/>
+                                </Border>
+                            </Grid>
+
+                            <Label Text="{Binding Descricao}" 
+                       TextColor="#57636C" 
+                       FontSize="14" 
+                       Margin="0,5,0,5"
+                       LineBreakMode="WordWrap" />
+
+                            <Button Text="CUMPRIR MISSÃO! 🚀"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.AbrirMissaoCommand}"
+                            CommandParameter="{Binding .}"
+                            BackgroundColor="#32CD32"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            HeightRequest="45"
+                            CornerRadius="23"
+                            VerticalOptions="EndAndExpand">
+                                <Button.Shadow>
+                                    <Shadow Brush="#228B22" Offset="0,4" Radius="0" Opacity="1"/>
+                                </Button.Shadow>
+                            </Button>
+
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

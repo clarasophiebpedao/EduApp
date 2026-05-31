@@ -5,7 +5,7 @@ using Microsoft.Maui.Controls; // Necessário para os comandos do MAUI (DisplayA
 using EduApp.Services;
 using EduApp.Models;
 
-namespace EduApp.ViewModels
+namespace EduApp.ViewModels.Geral
 {
     public class Cadastro
     {
@@ -30,14 +30,14 @@ namespace EduApp.ViewModels
             // Valida se deixou algum campo em branco
             if (string.IsNullOrWhiteSpace(Nome) || string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Senha))
             {
-                await App.Current.MainPage.DisplayAlert("Atenção", "Por favor, preencha todos os campos da tela.", "Entendido");
+                await Application.Current.MainPage.DisplayAlert("Atenção", "Por favor, preencha todos os campos da tela.", "Entendido");
                 return;
             }
 
             // Valida se as senhas são iguais
             if (Senha != ConfirmaSenha)
             {
-                await App.Current.MainPage.DisplayAlert("Erro", "As senhas não coincidem!", "Tentar novamente");
+                await Application.Current.MainPage.DisplayAlert("Erro", "As senhas não coincidem!", "Tentar novamente");
                 return;
             }
 
@@ -45,11 +45,11 @@ namespace EduApp.ViewModels
             // EMPACOTANDO NO MODEL
             // Aqui criamos o Aluno e preenchemos os dados obrigatórios (required)
             // =================================================================
-            Aluno alunoParaSalvar = new Aluno
+            EduApp.Models.Aluno alunoParaSalvar = new EduApp.Models.Aluno
             {
-                Nome = this.Nome,
-                Email = this.Email,
-                Senha = this.Senha,
+                Nome = Nome,
+                Email = Email,
+                Senha = Senha,
 
                 // Como não temos esses campos na tela ainda, mandamos valores fixos
                 // para o C# não dar erro e conseguirmos salvar no banco
@@ -68,14 +68,14 @@ namespace EduApp.ViewModels
             // Resposta para o usuário
             if (sucesso)
             {
-                await App.Current.MainPage.DisplayAlert("Sucesso!", $"Aluno(a) {Nome} cadastrado(a) com sucesso!", "OK");
+                await Application.Current.MainPage.DisplayAlert("Sucesso!", $"Aluno(a) {Nome} cadastrado(a) com sucesso!", "OK");
 
                 // Volta para a tela de login
-                await App.Current.MainPage.Navigation.PopAsync();
+                await Application.Current.MainPage.Navigation.PopAsync();
             }
             else
             {
-                await App.Current.MainPage.DisplayAlert("Falha", "Não foi possível cadastrar no banco. Verifique sua conexão.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Falha", "Não foi possível cadastrar no banco. Verifique sua conexão.", "OK");
             }
         }
     }

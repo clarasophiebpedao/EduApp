@@ -1,4 +1,4 @@
-﻿using EduApp.ViewModels;
+﻿using EduApp.ViewModels.Professor;
 
 namespace EduApp.Views
 {

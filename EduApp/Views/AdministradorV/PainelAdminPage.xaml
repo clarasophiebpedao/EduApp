@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EduApp.Views.PainelAdminPage"
+             BackgroundColor="#F4FAFF"
+             Title="Portal do Guardião">
+
+    <!-- Grid principal substitui o VerticalStackLayout para garantir que a lista role perfeitamente -->
+    <Grid Padding="20" RowDefinitions="Auto, *, Auto">
+
+        <!-- LINHA 0: CABEÇALHO -->
+        <VerticalStackLayout Grid.Row="0" Spacing="5" Margin="0,0,0,20">
+            <Label Text="Portões da Academia 🏰"
+                   FontSize="26"
+                   FontAttributes="Bold"
+                   TextColor="#4A4A4A"
+                   HorizontalOptions="Center" />
+            <Label Text="Decida o destino dos novos viajantes"
+                   FontSize="15"
+                   TextColor="#57636C"
+                   HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <!-- LINHA 1: LISTA DE USUÁRIOS PENDENTES -->
+        <CollectionView ItemsSource="{Binding UsuariosPendentes}" Grid.Row="1">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="15"/>
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border StrokeShape="RoundRectangle 20" StrokeThickness="0" BackgroundColor="White" Padding="20" MinimumHeightRequest="160">
+                        <Border.Shadow>
+                            <Shadow Brush="Gray" Offset="0,5" Radius="8" Opacity="0.15"/>
+                        </Border.Shadow>
+
+                        <!-- Organização Vertical para caber bem em telas de celulares -->
+                        <VerticalStackLayout Spacing="15" MinimumHeightRequest="180">
+
+                            <!-- Informações do Usuário -->
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="{Binding Nome}" FontSize="18" FontAttributes="Bold" TextColor="#1E90FF"/>
+                                <Label Text="{Binding Email}" TextColor="#57636C" FontSize="14"/>
+                            </VerticalStackLayout>
+
+                            <!-- Botões de Decisão (Lado a Lado) -->
+                            <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+
+                                <!-- Transformar em Aluno -->
+                                <Button Text="🦸‍♂️ HERÓI"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.TornarAlunoCommand}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="#32CD32" 
+                                        TextColor="White"
+                                        FontAttributes="Bold"
+                                        HeightRequest="50"
+                                        CornerRadius="25"
+                                        Grid.Column="0">
+                                    <Button.Shadow>
+                                        <Shadow Brush="#228B22" Offset="0,4" Radius="0" Opacity="1"/>
+                                    </Button.Shadow>
+                                </Button>
+
+                                <!-- Transformar em Professor -->
+                                <Button Text="🧙‍♂️ MESTRE"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.TornarProfessorCommand}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="#9370DB" 
+                                        TextColor="White"
+                                        FontAttributes="Bold"
+                                        HeightRequest="50"
+                                        CornerRadius="25"
+                                        Grid.Column="1">
+                                    <Button.Shadow>
+                                        <Shadow Brush="#7E57C2" Offset="0,4" Radius="0" Opacity="1"/>
+                                    </Button.Shadow>
+                                </Button>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <!-- ESTADO VAZIO: Quando não há ninguém para aprovar -->
+            <CollectionView.EmptyView>
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="15" Padding="30">
+                    <Label Text="Tudo tranquilo! 🍃" FontSize="22" FontAttributes="Bold" TextColor="#4A4A4A" HorizontalOptions="Center"/>
+                    <Label Text="Nenhum novo viajante aguardando aprovação no momento." FontSize="16" TextColor="#57636C" HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+        </CollectionView>
+
+        <!-- LINHA 2: BOTÃO DE SAIR -->
+        <Button Text="Fechar Portal (Sair) 🚪" 
+                Command="{Binding LogoutCommand}" 
+                BackgroundColor="#FF3B30" 
+                TextColor="White"
+                FontAttributes="Bold"
+                HeightRequest="50"
+                CornerRadius="25"
+                Grid.Row="2"
+                Margin="0,20,0,0">
+            <Button.Shadow>
+                <Shadow Brush="#CC0000" Offset="0,4" Radius="0" Opacity="1"/>
+            </Button.Shadow>
+        </Button>
+
+    </Grid>
+</ContentPage>

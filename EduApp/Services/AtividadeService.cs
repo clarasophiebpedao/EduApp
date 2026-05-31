@@ -14,7 +14,7 @@ namespace EduApp.Services
 
                 await conexao.OpenAsync();
 
-                string sql = "INSERT INTO Atividade (Titulo, Descricao, Pontos) VALUES (@titulo, @descricao, @pontos)";
+                string sql = "INSERT INTO Atividade (atiTitulo, atiDescricao, atiPontos) VALUES (@titulo, @descricao, @pontos)";
 
                 using var comando = new MySqlCommand(sql, conexao);
 
@@ -52,9 +52,9 @@ namespace EduApp.Services
                 {
                     var atividadeEncontrada = new Atividade
                     {
-                        Titulo = leitor["Titulo"].ToString(),
-                        Descricao = leitor["Descricao"].ToString(),
-                        Pontos = Convert.ToInt32(leitor["Pontos"])
+                        Titulo = leitor["atiTitulo"].ToString(),
+                        Descricao = leitor["atiDescricao"].ToString(),
+                        Pontos = Convert.ToInt32(leitor["atiPontos"])
                     };
 
                     listaDeAtividades.Add(atividadeEncontrada);
@@ -76,11 +76,12 @@ namespace EduApp.Services
                 using var conexao = GetConnection();
                 await conexao.OpenAsync();
 
-                string sql = @"SELECT h.Id AS IdHistorico, h.idAluno, a.Nome AS AlunoNome, act.Titulo AS AtividadeTitulo, act.Pontos 
-                       FROM Historico_Atividade h
-                       INNER JOIN Aluno a ON h.idAluno = a.Id
-                       INNER JOIN Atividade act ON h.idAtividade = act.Id
-                       WHERE h.Status = 'Pendente'";
+                string sql = @"SELECT h.histID AS IdHistorico, h.usuID_Aluno AS idAluno, u.usuNome AS AlunoNome, act.atiTitulo AS AtividadeTitulo, act.atiPontos AS Pontos 
+                    FROM HistoricoAtividade h
+                    INNER JOIN Aluno a ON h.usuID_Aluno = a.usuID
+                    INNER JOIN Usuario u ON a.usuID = u.usuID
+                    INNER JOIN Atividade act ON h.atiID = act.atiID
+                    WHERE h.status = 'Pendente'";
 
                 using var comando = new MySqlCommand(sql, conexao);
                 using var leitor = await comando.ExecuteReaderAsync();
@@ -113,7 +114,7 @@ namespace EduApp.Services
                 using var conexao = GetConnection();
                 await conexao.OpenAsync();
 
-                string sql = "INSERT INTO Historico_Atividade (idAluno, idAtividade, status) VALUES (@idAluno, @idAtividade, 'Pendente')";
+                string sql = "INSERT INTO HistoricoAtividade (usuID_Aluno, atiID, status) VALUES (@idAluno, @idAtividade, 'Pendente')";
 
                 using var comando = new MySqlCommand(sql, conexao);
 
@@ -136,12 +137,12 @@ namespace EduApp.Services
                 using var conexao = GetConnection();
                 await conexao.OpenAsync();
 
-                string sqlHistorico = "UPDATE Historico_Atividade SET Status = 'Concluída' WHERE Id = @idHistorico";
+                string sqlHistorico = "UPDATE HistoricoAtividade SET status = 'Concluída' WHERE histID = @idHistorico";
                 using var comando1 = new MySqlCommand(sqlHistorico, conexao);
                 comando1.Parameters.AddWithValue("@idHistorico", idHistorico);
                 await comando1.ExecuteNonQueryAsync();
 
-                string sqlAluno = "UPDATE Aluno SET Pontos = Pontos + @pontos WHERE Id = @idAluno";
+                string sqlAluno = "UPDATE Aluno SET aluPontos = aluPontos + @pontos WHERE usuID = @idAluno";
                 using var comando2 = new MySqlCommand(sqlAluno, conexao);
                 comando2.Parameters.AddWithValue("@pontos", pontosDaAtividade);
                 comando2.Parameters.AddWithValue("@idAluno", idAluno);

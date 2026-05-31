@@ -1,4 +1,4 @@
-﻿using EduApp.ViewModels;
+﻿using EduApp.ViewModels.Administrador;
 using System;
 
 namespace EduApp.Views;

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EduApp.Views.ProfessorView"
+             BackgroundColor="#F4FAFF"
+             Title="Central do Mestre">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="20" VerticalOptions="Center">
+
+            <Image Source="mascote_feliz.png"
+                   HeightRequest="150"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,10"/>
+
+            <Label Text="Olá, Guia Mágico! 👨‍🏫"
+                   FontSize="30"
+                   FontAttributes="Bold"
+                   TextColor="#4A4A4A"
+                   HorizontalOptions="Center"/>
+
+            <Label Text="Pronto para guiar nossos heróis hoje na Central de Missões?"
+                   FontSize="16"
+                   TextColor="#57636C"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,0,0,20"/>
+
+            <Button Text="🚀 CRIAR NOVAS MISSÕES!"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    HeightRequest="75"
+                    CornerRadius="38"
+                    BackgroundColor="#FF8C00"
+                    TextColor="White"
+                    Clicked="OnIrParaCadastro">
+                <Button.Shadow>
+                    <Shadow Brush="#F57C00" Offset="0,6" Radius="0" Opacity="1"/>
+                </Button.Shadow>
+            </Button>
+
+            <Button Text="⭐ VALIDAR CONQUISTAS!"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    HeightRequest="75"
+                    CornerRadius="38"
+                    BackgroundColor="#9370DB"
+                    TextColor="White"
+                    Clicked="OnIrParaCorrigir">
+                <Button.Shadow>
+                    <Shadow Brush="#7E57C2" Offset="0,6" Radius="0" Opacity="1"/>
+                </Button.Shadow>
+            </Button>
+
+            <Button Text="Tchau tchau! 👋"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    CornerRadius="25"
+                    BackgroundColor="#FF3B30"
+                    TextColor="White"
+                    Margin="0, 35, 0, 0"
+                    WidthRequest="200"
+                    HorizontalOptions="Center"
+                    Command="{Binding LogoutCommand}">
+                <Button.Shadow>
+                    <Shadow Brush="#CC0000" Offset="0,4" Radius="0" Opacity="1"/>
+                </Button.Shadow>
+            </Button>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

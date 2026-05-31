@@ -1,0 +1,60 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EduApp.Views.Aluno.AlunoView"
+             BackgroundColor="#F4FAFF"
+             Title="Minha Base">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="20" VerticalOptions="Center">
+
+            <Image Source="mascote_pontos.png" 
+                   HeightRequest="150" 
+                   HorizontalOptions="Center" 
+                   Margin="0,0,0,10"/>
+
+            <Label Text="Sua Base Secreta! ⛺" 
+                   FontSize="32" 
+                   FontAttributes="Bold" 
+                   TextColor="#1E90FF" 
+                   HorizontalOptions="Center" />
+
+            <Border StrokeShape="RoundRectangle 20" StrokeThickness="0" BackgroundColor="#FFFACD" Padding="10" Margin="0, 10, 0, 20">
+                <Border.Shadow>
+                    <Shadow Brush="Gray" Offset="0,4" Radius="5" Opacity="0.15"/>
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="40">
+                    <Label Text="Seus Pontos de Herói:" FontSize="16" TextColor="#B8860B" HorizontalOptions="Center" FontAttributes="Bold"/>
+                    <Label Text="⭐ 0 XP" FontSize="32" TextColor="#FF8C00" HorizontalOptions="Center" FontAttributes="Bold"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <Button Text="VER MINHAS MISSÕES 🗺️"
+                    FontSize="20"
+                    FontAttributes="Bold"
+                    HeightRequest="75"
+                    CornerRadius="37"
+                    BackgroundColor="#32CD32"
+                    TextColor="White"
+                    Clicked="AlunoIrParaAtividades">
+                <Button.Shadow>
+                    <Shadow Brush="#228B22" Offset="0,6" Radius="0" Opacity="1"/>
+                </Button.Shadow>
+            </Button>
+
+            <Button Text="Sair do Jogo 🚪" 
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    CornerRadius="25"
+                    BackgroundColor="#FF3B30" 
+                    TextColor="White" 
+                    Margin="0, 15, 0, 0"
+                    Command="{Binding LogoutCommand}">
+                <Button.Shadow>
+                    <Shadow Brush="#CC0000" Offset="0,4" Radius="0" Opacity="1"/>
+                </Button.Shadow>
+            </Button>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

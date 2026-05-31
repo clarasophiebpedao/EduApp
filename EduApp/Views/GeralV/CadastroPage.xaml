@@ -1,0 +1,95 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EduApp.Views.CadastroPage"
+             BackgroundColor="#F4FAFF">
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="20" VerticalOptions="Center">
+
+            <Image Source="mascote_feliz.png" 
+                   HeightRequest="120" 
+                   HorizontalOptions="Center" 
+                   Margin="0,0,0,5" />
+
+            <Label Text="Crie seu Personagem! 🎨" 
+                   FontSize="28" 
+                   FontAttributes="Bold" 
+                   TextColor="#9370DB" 
+                   HorizontalOptions="Center" />
+
+            <Label Text="Preencha os dados mágicos para jogar" 
+                   FontSize="16" 
+                   TextColor="#4A4A4A" 
+                   HorizontalOptions="Center" 
+                   Margin="0,0,0,10" />
+
+            <Border StrokeShape="RoundRectangle 20" StrokeThickness="0" BackgroundColor="White" Padding="20,2" HeightRequest="60">
+                <Border.Shadow>
+                    <Shadow Brush="Gray" Offset="0,4" Radius="5" Opacity="0.15"/>
+                </Border.Shadow>
+                <Entry Placeholder="Seu nome de herói" 
+                       Text="{Binding Nome}" 
+                       FontSize="16"
+                       TextColor="#333333" 
+                       VerticalOptions="Center"/>
+            </Border>
+
+            <Border StrokeShape="RoundRectangle 20" StrokeThickness="0" BackgroundColor="White" Padding="20,2" HeightRequest="60">
+                <Border.Shadow>
+                    <Shadow Brush="Gray" Offset="0,4" Radius="5" Opacity="0.15"/>
+                </Border.Shadow>
+                <Entry Placeholder="Seu e-mail mágico" 
+                       Keyboard="Email" 
+                       Text="{Binding Email}" 
+                       FontSize="16"
+                       TextColor="#333333" 
+                       VerticalOptions="Center"/>
+            </Border>
+
+            <Border StrokeShape="RoundRectangle 20" StrokeThickness="0" BackgroundColor="White" Padding="20,2" HeightRequest="60">
+                <Border.Shadow>
+                    <Shadow Brush="Gray" Offset="0,4" Radius="5" Opacity="0.15"/>
+                </Border.Shadow>
+                <Entry Placeholder="Crie uma senha secreta" 
+                       IsPassword="True" 
+                       Text="{Binding Senha}" 
+                       FontSize="16"
+                       TextColor="#333333" 
+                       VerticalOptions="Center"/>
+            </Border>
+
+            <Border StrokeShape="RoundRectangle 20" StrokeThickness="0" BackgroundColor="White" Padding="20,2" HeightRequest="60">
+                <Border.Shadow>
+                    <Shadow Brush="Gray" Offset="0,4" Radius="5" Opacity="0.15"/>
+                </Border.Shadow>
+                <Entry Placeholder="Repita a senha secreta" 
+                       IsPassword="True" 
+                       Text="{Binding ConfirmaSenha}" 
+                       FontSize="16"
+                       TextColor="#333333" 
+                       VerticalOptions="Center"/>
+            </Border>
+
+            <Button Text="CRIAR PERSONAGEM!" 
+                    FontSize="20" 
+                    FontAttributes="Bold" 
+                    HeightRequest="65" 
+                    CornerRadius="30"
+                    BackgroundColor="#FF8C00" 
+                    TextColor="White" 
+                    Margin="0,10,0,0" 
+                    Command="{Binding CadastrarCommand}">
+                <Button.Shadow>
+                    <Shadow Brush="#CC7000" Offset="0,5" Radius="0" Opacity="1"/>
+                </Button.Shadow>
+            </Button>
+
+            <Button Text="Já tem um personagem? Entrar"
+                    FontSize="15" 
+                    FontAttributes="Bold"
+                    BackgroundColor="Transparent"
+                    TextColor="#32CD32"
+                    Clicked="OnIrParaLogin" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

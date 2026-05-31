@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using EduApp.Models;
 using EduApp.Services;
 
-namespace EduApp.ViewModels
+namespace EduApp.ViewModels.Administrador
 {
     public class PainelAdminViewModel
     {
@@ -17,6 +17,8 @@ namespace EduApp.ViewModels
         public ICommand TornarAlunoCommand { get; }
         public ICommand TornarProfessorCommand { get; }
 
+        public ICommand LogoutCommand { get; }
+
         public PainelAdminViewModel()
         {
             _usuarioService = new UsuarioService();
@@ -25,7 +27,10 @@ namespace EduApp.ViewModels
             // Configura os comandos para escutar qual usuário foi clicado e qual o destino dele
             TornarAlunoCommand = new Command<Usuario>(async (usuario) => await ExecutarAtribuicao(usuario, "Aluno"));
             TornarProfessorCommand = new Command<Usuario>(async (usuario) => await ExecutarAtribuicao(usuario, "Professor"));
+            LogoutCommand = new Command(async () => await FazerLogout());
         }
+
+
 
         // Método que solicita ao backend a lista de usuários com status 'Pendente'
         public async Task CarregarUsuariosPendentesAsync()
@@ -40,6 +45,19 @@ namespace EduApp.ViewModels
             }
         }
 
+        private async Task FazerLogout()
+        {
+            bool confirmar = await Application.Current.MainPage.DisplayAlert("Sair", "Tem certeza que deseja sair da conta?", "Sim", "Não");
+
+            if (confirmar)
+            {
+                // Limpe as variáveis de sessão aqui (ex: zerar o ID do usuário logado)
+
+                // Troca a tela principal inteira de volta para o Login (Substitua "GeralV" pela pasta correta se necessário)
+                Application.Current.MainPage = new NavigationPage(new EduApp.Views.LoginPage());
+            }
+        }
+
         // Processa a aprovação e muda o papel do usuário no MySQL
         private async Task ExecutarAtribuicao(Usuario usuario, string novoPerfil)
         {
@@ -51,14 +69,14 @@ namespace EduApp.ViewModels
             if (deuCerto)
             {
                 // Alerta de sucesso para o Administrador
-                await App.Current.MainPage.DisplayAlert("Sucesso!", $"{usuario.Nome} agora está cadastrado como {novoPerfil}.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Sucesso!", $"{usuario.Nome} agora está cadastrado como {novoPerfil}.", "OK");
 
                 // Atualiza a lista na tela (o usuário aprovado some da lista de pendentes)
                 await CarregarUsuariosPendentesAsync();
             }
             else
             {
-                await App.Current.MainPage.DisplayAlert("Erro", "Não foi possível atualizar o perfil do usuário.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Erro", "Não foi possível atualizar o perfil do usuário.", "OK");
             }
         }
     }

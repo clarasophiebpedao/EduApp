@@ -1,4 +1,4 @@
-﻿using EduApp.ViewModels;
+﻿using EduApp.ViewModels.Aluno;
 
 namespace EduApp.Views
 {

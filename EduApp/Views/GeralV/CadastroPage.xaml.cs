@@ -1,4 +1,5 @@
 ﻿using EduApp.ViewModels;
+using EduApp.ViewModels.Geral;
 using System;
 
 namespace EduApp.Views;

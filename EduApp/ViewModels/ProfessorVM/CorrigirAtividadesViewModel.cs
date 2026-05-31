@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using EduApp.Models;
 using EduApp.Services;
 
-namespace EduApp.ViewModels
+namespace EduApp.ViewModels.Professor
 {
     public class CorrigirAtividadesViewModel
     {
@@ -42,7 +42,7 @@ namespace EduApp.ViewModels
             if (deuCerto)
             {
 
-                await App.Current.MainPage.DisplayAlert("Sucesso!", $"Atividade do aluno aprovada. Pontos creditados!", "OK");
+                await Application.Current.MainPage.DisplayAlert("Sucesso!", $"Atividade do aluno aprovada. Pontos creditados!", "OK");
 
                 await CarregarEntregasPendentesAsync();
             }
