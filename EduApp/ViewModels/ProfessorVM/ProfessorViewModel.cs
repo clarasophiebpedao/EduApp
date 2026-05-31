@@ -26,7 +26,7 @@ namespace EduApp.ViewModels.Professor
             if (confirmar)
             {
                 // Limpe as variáveis de sessão aqui (ex: zerar o ID do usuário logado)
-
+                Preferences.Default.Remove("IdUsuario");
                 // Troca a tela principal inteira de volta para o Login (Substitua "GeralV" pela pasta correta se necessário)
                 Application.Current.MainPage = new NavigationPage(new EduApp.Views.LoginPage());
             }

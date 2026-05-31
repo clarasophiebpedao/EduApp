@@ -30,7 +30,8 @@
                     <Border StrokeShape="RoundRectangle 20" 
                             StrokeThickness="0" 
                             BackgroundColor="White" 
-                            Padding="20">
+                            Padding="20"
+                            MinimumHeightRequest="200">
                         <Border.Shadow>
                             <Shadow Brush="Gray" Offset="0,5" Radius="8" Opacity="0.15"/>
                         </Border.Shadow>

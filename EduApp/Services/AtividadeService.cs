@@ -52,6 +52,7 @@ namespace EduApp.Services
                 {
                     var atividadeEncontrada = new Atividade
                     {
+                        Id = Convert.ToInt32(leitor["atiID"]),
                         Titulo = leitor["atiTitulo"].ToString(),
                         Descricao = leitor["atiDescricao"].ToString(),
                         Pontos = Convert.ToInt32(leitor["atiPontos"])

@@ -52,7 +52,7 @@ namespace EduApp.ViewModels.Administrador
             if (confirmar)
             {
                 // Limpe as variáveis de sessão aqui (ex: zerar o ID do usuário logado)
-
+                Preferences.Default.Remove("IdUsuario");
                 // Troca a tela principal inteira de volta para o Login (Substitua "GeralV" pela pasta correta se necessário)
                 Application.Current.MainPage = new NavigationPage(new EduApp.Views.LoginPage());
             }
@@ -63,7 +63,6 @@ namespace EduApp.ViewModels.Administrador
         {
             if (usuario == null) return;
 
-            // NOTA: Seu colega de backend criará esse método AtualizarPerfilUsuarioAsync no UsuarioService
             bool deuCerto = await _usuarioService.AtualizarPerfilUsuarioAsync(usuario.Id, novoPerfil);
 
             if (deuCerto)

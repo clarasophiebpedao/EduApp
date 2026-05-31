@@ -13,12 +13,12 @@
                    TextColor="#FF8C00" 
                    HorizontalOptions="Center" />
 
-            <Border StrokeShape="RoundRectangle 20" StrokeThickness="0" BackgroundColor="White" Padding="20">
+            <Border StrokeShape="RoundRectangle 20" StrokeThickness="0" BackgroundColor="White" Padding="20" MinimumHeightRequest="180">
                 <Border.Shadow>
                     <Shadow Brush="Gray" Offset="0,4" Radius="5" Opacity="0.15"/>
                 </Border.Shadow>
 
-                <VerticalStackLayout Spacing="10">
+                <VerticalStackLayout Spacing="10" MinimumHeightRequest="180">
                     <Label Text="{Binding MissaoAtual.Titulo}" FontSize="22" FontAttributes="Bold" TextColor="#1E90FF" HorizontalOptions="Center"/>
 
                     <Border StrokeShape="RoundRectangle 15" StrokeThickness="0" BackgroundColor="#FFFACD" Padding="10,5" HorizontalOptions="Center">

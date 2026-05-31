@@ -48,32 +48,40 @@ namespace EduApp.Services
         // ==========================================
         // R - READ (Login do Usuário)
         // ==========================================
-        public async Task<string> ValidarLoginAsync(string email, string senha)
+        public async Task<(int Id, string Permissao)> ValidarLoginAsync(string email, string senha)
         {
             try
             {
                 using var connection = GetConnection();
                 await connection.OpenAsync();
 
-                string query = "SELECT usuPermissao FROM Usuario WHERE usuEmail = @email AND usuSenha = @senha";
+                // 1. Mudamos o SELECT para pedir o usuID também
+                string query = "SELECT usuID, usuPermissao FROM Usuario WHERE usuEmail = @email AND usuSenha = @senha";
 
                 using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@email", email);
                 command.Parameters.AddWithValue("@senha", senha);
 
-                var resultado = await command.ExecuteScalarAsync();
+                // 2. Mudamos para ExecuteReader para conseguir ler várias colunas
+                using var leitor = await command.ExecuteReaderAsync();
 
-                if (resultado == null || resultado == DBNull.Value)
+                // 3. Se ele conseguir ler uma linha (ou seja, login deu certo)
+                if (await leitor.ReadAsync())
                 {
-                    return null;
+                    int idEncontrado = Convert.ToInt32(leitor["usuID"]);
+                    string permissaoEncontrada = leitor["usuPermissao"].ToString();
+
+                    // Devolve as duas informações juntas
+                    return (idEncontrado, permissaoEncontrada);
                 }
 
-                return resultado.ToString();
+                // Se não achou usuário ou a senha tá errada
+                return (0, null);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao fazer login: {ex.Message}");
-                return null;
+                System.Diagnostics.Debug.WriteLine($"Erro ao fazer login: {ex.Message}");
+                return (0, null);
             }
         }
 
@@ -126,19 +134,34 @@ namespace EduApp.Services
                 using var connection = GetConnection();
                 await connection.OpenAsync();
 
-                // Query usando a coluna certa (usuID) que você me passou
-                string query = "UPDATE Usuario SET usuPermissao = @permissao WHERE usuID = @id";
+                // 1. Peça base: Sempre atualiza o perfil na tabela principal
+                string query = "UPDATE Usuario SET usuPermissao = @permissao WHERE usuID = @id;";
+
+                // 2. Peça dinâmica: Cria o registro na tabela específica correspondente
+                if (novoPerfil == "Aluno")
+                {
+                    // O INSERT IGNORE é um escudo: se o aluno já estiver na tabela por algum motivo, ele não trava o app.
+                    query += " INSERT IGNORE INTO Aluno (usuID, aluPontos) VALUES (@id, 0);";
+                }
+                else if (novoPerfil == "Professor")
+                {
+                    // Cria o registro na tabela Professor
+                    query += " INSERT IGNORE INTO Professor (usuID) VALUES (@id);";
+                }
 
                 using var command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@permissao", novoPerfil);
                 command.Parameters.AddWithValue("@id", id);
 
                 int linhasAfetadas = await command.ExecuteNonQueryAsync();
+
+                // Retorna verdadeiro se o comando funcionou (update ou insert)
                 return linhasAfetadas > 0;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao atualizar perfil: {ex.Message}");
+                // Debug para facilitar a visualização de erros no Visual Studio
+                System.Diagnostics.Debug.WriteLine($"Erro ao atualizar perfil: {ex.Message}");
                 return false;
             }
         }

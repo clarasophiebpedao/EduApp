@@ -35,40 +35,45 @@ namespace EduApp.ViewModels.Geral
 
             var usuarioService = new UsuarioService();
 
-            // Puxa a string direta da coluna usuPermissao do MySQL
-            string permissao = await usuarioService.ValidarLoginAsync(Email, Senha);
+            // CORREÇÃO 1: Puxa o resultado completo (Id e Permissao) do método atualizado
+            var resultado = await usuarioService.ValidarLoginAsync(Email, Senha);
 
-            // Se o banco retornar algo (não nulo e não vazio), o login está correto
-            if (!string.IsNullOrEmpty(permissao))
+            // Se a permissão não for nula, o login está correto
+            if (resultado.Permissao != null)
             {
                 await Application.Current.MainPage.DisplayAlert("Bem-vindo!", "Login realizado com sucesso.", "Continuar");
 
-                // Remove espaços em branco acidentais que possam vir do banco de dados (ex: "Admin ")
-                string permissaoLimpa = permissao.Trim();
+                // Remove espaços em branco acidentais
+                string permissaoLimpa = resultado.Permissao.Trim();
 
-                // Compara os perfis ignorando maiúsculas/minúsculas (StringComparison.OrdinalIgnoreCase)
+                // Compara os perfis ignorando maiúsculas/minúsculas
                 if (permissaoLimpa.Equals("Admin", StringComparison.OrdinalIgnoreCase) ||
                     permissaoLimpa.Equals("Administrador", StringComparison.OrdinalIgnoreCase))
                 {
+                    // CORREÇÃO 2: Salva o ID usando a chave "IdUsuario" que programamos na tela de missões
+                    Preferences.Default.Set("IdUsuario", resultado.Id);
                     Application.Current.MainPage = new NavigationPage(new PainelAdminPage());
                 }
                 else if (permissaoLimpa.Equals("Aluno", StringComparison.OrdinalIgnoreCase))
                 {
+                    // CORREÇÃO 2: Salva o ID usando o resultado vindo do banco
+                    Preferences.Default.Set("IdUsuario", resultado.Id);
                     Application.Current.MainPage = new NavigationPage(new AlunoView());
                 }
                 else if (permissaoLimpa.Equals("Professor", StringComparison.OrdinalIgnoreCase))
                 {
+                    // CORREÇÃO 2: Salva o ID usando o resultado vindo do banco
+                    Preferences.Default.Set("IdUsuario", resultado.Id);
                     Application.Current.MainPage = new NavigationPage(new ProfessorView());
                 }
                 else
                 {
-                    // Caso o texto seja 'Pendente' ou qualquer outra coisa que não seja os perfis acima
                     await Application.Current.MainPage.DisplayAlert("Aviso", "Sua conta está aguardando a aprovação do administrador.", "OK");
                 }
             }
             else
             {
-                // Se a resposta do banco for nula, o e-mail ou a senha estão incorretos
+                // Se a resposta for nula, o e-mail ou a senha estão incorretos
                 await Application.Current.MainPage.DisplayAlert("Acesso Negado", "E-mail ou senha incorretos. Tente novamente.", "OK");
             }
         }
