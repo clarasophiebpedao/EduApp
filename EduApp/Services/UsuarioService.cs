@@ -165,5 +165,35 @@ namespace EduApp.Services
                 return false;
             }
         }
+
+        public async Task<int> BuscarPontosDoAlunoAsync(int idAluno)
+        {
+            try
+            {
+                using var connection = GetConnection();
+                await connection.OpenAsync();
+
+                // Busca apenas a coluna de pontos na tabela Aluno
+                string query = "SELECT aluPontos FROM Aluno WHERE usuID = @id";
+
+                using var command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id", idAluno);
+
+                var resultado = await command.ExecuteScalarAsync();
+
+                if (resultado != null && resultado != DBNull.Value)
+                {
+                    return Convert.ToInt32(resultado);
+                }
+
+                return 0; // Se não achar nada, retorna 0
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Erro ao buscar pontos: {ex.Message}");
+                return 0;
+            }
+        }
+
     }
 }

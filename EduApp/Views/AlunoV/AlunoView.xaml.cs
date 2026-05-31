@@ -5,16 +5,26 @@ namespace EduApp.Views.Aluno;
 
 public partial class AlunoView : ContentPage
 {
-	public AlunoView()
+    private ViewModels.Aluno.AlunoViewModel _viewModel;
+    public AlunoView()
 	{
 		InitializeComponent();
 
-        BindingContext = new AlunoViewModel();
+        _viewModel = new ViewModels.Aluno.AlunoViewModel();
+        BindingContext = _viewModel;
     }
 
     private async void AlunoIrParaAtividades(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new ListaAtividadesPage());
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        // Puxa os dados atualizados do banco (Pontos XP)
+        await _viewModel.CarregarDadosDoHeroiAsync();
     }
 
 }
